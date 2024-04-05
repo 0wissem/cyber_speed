@@ -8,11 +8,30 @@
  * @format
  */
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, Text} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
 import Home from './src/screens/Home';
+import Movie from './src/screens/Movie';
+import {COLORS} from './src/constants/colors';
+const HeaderLeftBackToPreviousScreen = navigation => {
+  return (
+    <TouchableOpacity
+      hitSlop={{top: 20, right: 20, left: 20, bottom: 20}}
+      onPress={() => {
+        try {
+          return navigation.pop();
+        } catch (error) {}
+      }} // Go back on press
+      style={styles.backButton}>
+      <Image
+        source={require('./src/assets/icons/arrow_back.png')}
+        style={styles.icon}
+      />
+    </TouchableOpacity>
+  );
+}
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -27,9 +46,33 @@ const App = () => {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="Movie"
+          component={Movie}
+          options={({navigation}) => ({
+            headerTransparent: true,
+            headerTitle: '',
+            headerLeft: () => HeaderLeftBackToPreviousScreen(navigation),
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 export default App;
+
+const styles = StyleSheet.create({
+  backButton: {
+    backgroundColor: COLORS.GRAY_BACKGROUND,
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+  icon: {
+    height: 20,
+    width: 20,
+  },
+});
