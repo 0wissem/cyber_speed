@@ -1,4 +1,10 @@
-import {StyleSheet, Text, View, ImageBackground} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {COLORS} from '../constants/colors';
@@ -6,10 +12,15 @@ import {COLORS} from '../constants/colors';
 interface ICard {
   title: string;
   imagePath: string;
+  onPress: (id: any) => void;
 }
-const Card: React.FC<ICard> = ({title = 'unavailable', imagePath = ''}) => {
+const Card: React.FC<ICard> = ({
+  title = 'unavailable',
+  imagePath = '',
+  onPress = () => {},
+}) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <ImageBackground
         source={{uri: imagePath}}
         resizeMode="cover"
@@ -25,7 +36,7 @@ const Card: React.FC<ICard> = ({title = 'unavailable', imagePath = ''}) => {
           </View>
         </LinearGradient>
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 };
 
