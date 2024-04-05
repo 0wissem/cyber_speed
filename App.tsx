@@ -8,18 +8,28 @@
  * @format
  */
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import {SafeAreaView, StatusBar, StyleSheet, Text} from 'react-native';
+import Home from './src/screens/Home';
 
 const App = () => {
+  const Stack = createNativeStackNavigator();
+
   return (
-    <SafeAreaView>
-      <StatusBar barStyle={'light-content'} />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-});
 
 export default App;
