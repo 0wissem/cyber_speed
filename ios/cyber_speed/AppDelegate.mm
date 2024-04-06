@@ -56,6 +56,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
+  self.window.tintColor = [UIColor colorWithRed:0.72f green:0.71f blue:0.71f alpha:1];
   [self.window makeKeyAndVisible];
   return YES;
 }
