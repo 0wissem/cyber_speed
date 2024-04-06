@@ -3,7 +3,7 @@ import React from 'react';
 import {COLORS} from '../constants/colors';
 import FastImage from 'react-native-fast-image';
 import {AVATAR} from '../constants/images';
-import {STRINGS} from './strings';
+import {STRINGS} from '../constants/strings';
 
 interface IHomeHeader {
   label?: string;

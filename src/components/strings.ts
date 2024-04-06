@@ -1,6 +1,0 @@
-export const STRINGS = {
-  HELLO:"hi, Brother!",
-  DESCRIPTION_HEADER: "find your favorite movie",
-  SHOW_LESS:"show less..",
-  SHOW_MORE:"show more.."
-}

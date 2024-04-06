@@ -1,4 +1,11 @@
-import {ActivityIndicator, FlatList, Platform, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import SearchBar from '../components/SearchBar';
 import {COLORS} from '../constants/colors';
@@ -8,6 +15,8 @@ import {tmbdStore} from '../stores/tmbd';
 import {observer} from 'mobx-react-lite';
 import {getImageFullUri} from '../utils/helpers';
 import Loader from '../components/Loader';
+import {STRINGS} from '../constants/strings';
+import Title from '../components/Title';
 
 interface IHome {
   navigation: any;
@@ -49,6 +58,14 @@ const Home: React.FC<IHome> = ({navigation}) => {
       />
     );
   };
+  const ListEmptyComponent = () => {
+    return (
+      <Title
+        style={styles.noFilmsText}
+        label={`${STRINGS.FILMS_NOT_FOUND} ${searchText}`}
+      />
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -62,6 +79,7 @@ const Home: React.FC<IHome> = ({navigation}) => {
           renderItem={renderMovie}
           style={styles.list}
           ItemSeparatorComponent={ItemSeparatorComponent}
+          ListEmptyComponent={ListEmptyComponent}
         />
       )}
     </SafeAreaView>
@@ -79,4 +97,5 @@ const styles = StyleSheet.create({
   list: {
     marginTop: 32,
   },
+  noFilmsText: {alignSelf: 'center', marginTop: 20, color: COLORS.RED},
 });

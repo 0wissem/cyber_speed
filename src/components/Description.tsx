@@ -2,7 +2,7 @@ import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React, {useCallback, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {COLORS} from '../constants/colors';
-import {STRINGS} from './strings';
+import {STRINGS} from '../constants/strings';
 
 interface IDescription {
   label: string;
