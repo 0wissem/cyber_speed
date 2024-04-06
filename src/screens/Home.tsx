@@ -17,6 +17,7 @@ import {getImageFullUri} from '../utils/helpers';
 import Loader from '../components/Loader';
 import {STRINGS} from '../constants/strings';
 import Title from '../components/Title';
+import {useDebounce} from '../hooks/useDebounce';
 
 interface IHome {
   navigation: any;
@@ -29,6 +30,8 @@ const Home: React.FC<IHome> = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(true);
   const listRef = useRef<FlatList<any>>(null);
+  const searchQuery = useDebounce(searchText, 1000);
+
   useEffect(() => {
     const fetchMovies = async () => {
       listRef?.current?.scrollToOffset({animated: true, offset: 0});
@@ -42,7 +45,7 @@ const Home: React.FC<IHome> = ({navigation}) => {
       setLoading(false);
     };
     fetchMovies();
-  }, [searchText]);
+  }, [searchQuery]);
 
   const onNavigateToMovieDetails = useCallback((id: number | null) => {
     navigation.push('Movie', {id});
