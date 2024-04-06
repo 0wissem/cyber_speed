@@ -1,4 +1,4 @@
-import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, FlatList, Platform, StyleSheet, View} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import SearchBar from '../components/SearchBar';
 import {COLORS} from '../constants/colors';
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.BLACK,
-    paddingTop: 20,
+    paddingTop: Platform.OS === 'android' ? 60 : 20,
   },
   list: {
     marginTop: 32,
