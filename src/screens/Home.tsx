@@ -11,13 +11,13 @@ import SearchBar from '../components/SearchBar';
 import {COLORS} from '../constants/colors';
 import Card from '../components/Card';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {tmbdStore} from '../stores/tmbd';
+// import {tmbdStore} from '../stores/tmbd';
 import {observer} from 'mobx-react-lite';
 import {getImageFullUri} from '../utils/helpers';
 import Loader from '../components/Loader';
 import {STRINGS} from '../constants/strings';
 import Title from '../components/Title';
-
+import {tmbdStore} from 'tmbd_module_wk';
 interface IHome {
   navigation: any;
 }

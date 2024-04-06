@@ -16,7 +16,7 @@ import Home from './src/screens/Home';
 import Movie from './src/screens/Movie';
 import {COLORS} from './src/constants/colors';
 import HomeHeader from './src/components/HomeHeader';
-import {tmbdStore} from './src/stores/tmbd';
+import {tmbdStore} from 'tmbd_module_wk';
 import {ACCESS_TOKEN} from './src/constants/config';
 import {observer} from 'mobx-react-lite';
 import {ARROW_BACK} from './src/constants/icons';
@@ -36,9 +36,9 @@ const HeaderLeftBackToPreviousScreen = navigation => {
 };
 const App = () => {
   const Stack = createNativeStackNavigator();
-  const {accessToken, setAccessToken} = tmbdStore;
+  const {accessToken} = tmbdStore;
   useEffect(() => {
-    setAccessToken(ACCESS_TOKEN);
+    tmbdStore.setAccessToken(ACCESS_TOKEN);
   }, []);
   if (accessToken) {
     return (
