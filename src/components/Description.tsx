@@ -8,6 +8,7 @@ import {
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {COLORS} from '../constants/colors';
+import {STRINGS} from './strings';
 
 interface IDescription {
   label: string;
@@ -36,9 +37,9 @@ const Description: React.FC<IDescription> = ({label = ''}) => {
         onPress={toggleDescriptionView}
         hitSlop={{top: 40, right: 20, left: 20}}>
         {showFullDescription ? (
-          <Text style={styles.moreOrLess}>show less..</Text>
+          <Text style={styles.moreOrLess}>{STRINGS.SHOW_LESS}</Text>
         ) : (
-          <Text style={styles.moreOrLess}>more..</Text>
+          <Text style={styles.moreOrLess}>{STRINGS.SHOW_MORE}</Text>
         )}
       </TouchableOpacity>
     </LinearGradient>

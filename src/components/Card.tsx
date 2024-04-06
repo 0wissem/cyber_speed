@@ -12,15 +12,20 @@ import {COLORS} from '../constants/colors';
 interface ICard {
   title: string;
   imagePath: string;
-  onPress: (id: any) => void;
+  onPress: () => void;
+  id: string | number | null;
 }
 const Card: React.FC<ICard> = ({
   title = 'unavailable',
   imagePath = '',
   onPress = () => {},
+  id = null,
 }) => {
+  const _onPress = () => {
+    onPress(id);
+  };
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity style={styles.container} onPress={_onPress}>
       <ImageBackground
         source={{uri: imagePath}}
         resizeMode="cover"
