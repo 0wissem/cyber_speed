@@ -1,4 +1,4 @@
-import {Image, StyleSheet, TextInput, View} from 'react-native';
+import {Image, Platform, StyleSheet, TextInput, View} from 'react-native';
 import React from 'react';
 import {COLORS} from '../constants/colors';
 
@@ -42,7 +42,9 @@ const styles = StyleSheet.create({
   textInput: {
     flexGrow: 1,
     height: 30,
+    fontSize: 14,
     paddingStart: 7,
+    paddingVertical: 0,
     color: COLORS.GRAY_TEXT,
   },
 });
