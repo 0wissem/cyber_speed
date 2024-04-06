@@ -1,0 +1,1 @@
+export const AVATAR = require ('../assets/icons/avatar.png')
