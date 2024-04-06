@@ -48,7 +48,7 @@ const Home: React.FC<IHome> = ({navigation}) => {
     navigation.push('Movie', {id});
   }, []);
 
-  const renderMovie = ({item}) => {
+  const renderMovie = useCallback(({item}) => {
     return (
       <Card
         imagePath={getImageFullUri(item?.poster_path)}
@@ -57,7 +57,7 @@ const Home: React.FC<IHome> = ({navigation}) => {
         id={item?.id}
       />
     );
-  };
+  }, []);
   const ListEmptyComponent = () => {
     return (
       <Title
@@ -70,18 +70,16 @@ const Home: React.FC<IHome> = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar value={searchText} onChangeText={setSearchText} />
-      {loading ? (
-        <Loader />
-      ) : (
-        <FlatList
-          ref={listRef}
-          data={movies}
-          renderItem={renderMovie}
-          style={styles.list}
-          ItemSeparatorComponent={ItemSeparatorComponent}
-          ListEmptyComponent={ListEmptyComponent}
-        />
-      )}
+      {loading && <Loader />}
+      <FlatList
+        ref={listRef}
+        data={movies}
+        renderItem={renderMovie}
+        style={styles.list}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        ListEmptyComponent={ListEmptyComponent}
+        keyExtractor={item => item?.id}
+      />
     </SafeAreaView>
   );
 };

@@ -76,7 +76,6 @@ export class TmbdStore {
 
       fetch(url, options)
         .then(res => {
-          console.log(res);
           return res.json();
         })
         .then(data =>

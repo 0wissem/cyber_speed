@@ -5,15 +5,16 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {memo} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {COLORS} from '../constants/colors';
+import FastImage from 'react-native-fast-image';
 
 interface ICard {
   title: string;
-  imagePath: string;
-  onPress: (id: number | null) => void;
-  id: number | null;
+  imagePath?: string;
+  onPress?: (id: number | null) => void;
+  id?: number | null;
 }
 const Card: React.FC<ICard> = ({
   title = 'unavailable',
@@ -26,7 +27,7 @@ const Card: React.FC<ICard> = ({
   };
   return (
     <TouchableOpacity style={styles.container} onPress={_onPress}>
-      <ImageBackground
+      <FastImage
         source={{uri: imagePath}}
         resizeMode="cover"
         style={styles.image}>
@@ -40,12 +41,16 @@ const Card: React.FC<ICard> = ({
             </Text>
           </View>
         </LinearGradient>
-      </ImageBackground>
+      </FastImage>
     </TouchableOpacity>
   );
 };
+const areEqual = (prevProps, nextProps) => {
+  const areequal = JSON.stringify(prevProps) === JSON.stringify(nextProps);
+  return areequal;
+};
 
-export default Card;
+export default memo(Card, areEqual);
 
 const styles = StyleSheet.create({
   container: {
