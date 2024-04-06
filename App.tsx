@@ -9,12 +9,13 @@
  */
 
 import React from 'react';
-import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Home from './src/screens/Home';
 import Movie from './src/screens/Movie';
 import {COLORS} from './src/constants/colors';
+import HomeHeader from './src/components/HomeHeader';
 const HeaderLeftBackToPreviousScreen = navigation => {
   return (
     <TouchableOpacity
@@ -31,8 +32,7 @@ const HeaderLeftBackToPreviousScreen = navigation => {
       />
     </TouchableOpacity>
   );
-}
-
+};
 const App = () => {
   const Stack = createNativeStackNavigator();
 
@@ -43,7 +43,7 @@ const App = () => {
           name="Home"
           component={Home}
           options={{
-            headerShown: false,
+            header: HomeHeader,
           }}
         />
         <Stack.Screen
