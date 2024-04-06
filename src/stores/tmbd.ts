@@ -36,6 +36,9 @@ export class TmbdStore {
   };
 
   fetchRandomMovies = async () => {
+    try {
+      
+    
     const url = `https://api.themoviedb.org/3/trending/movie/day?per_page=${this.defaultPageContent}&language=en-US`;
     const options = {
       method: 'GET',
@@ -58,29 +61,38 @@ export class TmbdStore {
           return data;
         }),
       );
+    } catch (error) {
+      console.warn(error);
+      
+    }
   };
   searchMovies = async (query: string | undefined) => {
-    const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${this.accessToken}`,
-      },
-    };
+    try {
+      const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${this.accessToken}`,
+        },
+      };
 
-    fetch(url, options)
-      .then(res => {
-        return res.json();
-      })
-      .then(data =>
-        runInAction(() => {
-          this.movies = data?.results;
-          // can be used to handle states instead of using "movies" observable.
-          // also helpfull for pagination to keep tracking the page number.
-          return data;
-        }),
-      );
+      fetch(url, options)
+        .then(res => {
+          console.log(res);
+          return res.json();
+        })
+        .then(data =>
+          runInAction(() => {
+            this.movies = data?.results;
+            // can be used to handle states instead of using "movies" observable.
+            // also helpfull for pagination to keep tracking the page number.
+            return data;
+          }),
+        );
+    } catch (error) {
+      console.warn(error);
+    }
   };
   retreiveMovieDetails = async (movie_id: number) => {
     try {
