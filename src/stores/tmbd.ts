@@ -37,33 +37,30 @@ export class TmbdStore {
 
   fetchRandomMovies = async () => {
     try {
-      
-    
-    const url = `https://api.themoviedb.org/3/trending/movie/day?per_page=${this.defaultPageContent}&language=en-US`;
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${this.accessToken}`,
-      },
-    };
+      const url = `https://api.themoviedb.org/3/trending/movie/day?per_page=${this.defaultPageContent}&language=en-US`;
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${this.accessToken}`,
+        },
+      };
 
-    fetch(url, options)
-      .then(res => {
-        return res.json();
-      })
-      .then(data =>
-        runInAction(() => {
-          // get the first 10 movies since per_page query is not available in the API.
-          this.movies = data?.results?.slice(0, 10);
-          // can be used to handle states instead of using "movies" observable.
-          // also helpfull for pagination to keep tracking the page number.
-          return data;
-        }),
-      );
+      fetch(url, options)
+        .then(res => {
+          return res.json();
+        })
+        .then(data =>
+          runInAction(() => {
+            // get the first 10 movies since per_page query is not available in the API.
+            this.movies = data?.results?.slice(0, 10);
+            // can be used to handle states instead of using "movies" observable.
+            // also helpfull for pagination to keep tracking the page number.
+            return data;
+          }),
+        );
     } catch (error) {
       console.warn(error);
-      
     }
   };
   searchMovies = async (query: string | undefined) => {
