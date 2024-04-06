@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
@@ -16,6 +16,9 @@ import Home from './src/screens/Home';
 import Movie from './src/screens/Movie';
 import {COLORS} from './src/constants/colors';
 import HomeHeader from './src/components/HomeHeader';
+import {tmbdStore} from './src/stores/tmbd';
+import {ACCESS_TOKEN} from './src/constants/config';
+import {observer} from 'mobx-react-lite';
 const HeaderLeftBackToPreviousScreen = navigation => {
   return (
     <TouchableOpacity
@@ -35,32 +38,38 @@ const HeaderLeftBackToPreviousScreen = navigation => {
 };
 const App = () => {
   const Stack = createNativeStackNavigator();
+  const {accessToken, setAccessToken} = tmbdStore;
+  useEffect(() => {
+    setAccessToken(ACCESS_TOKEN);
+  }, []);
+  if (accessToken) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              header: HomeHeader,
+            }}
+          />
+          <Stack.Screen
+            name="Movie"
+            component={Movie}
+            options={({navigation}) => ({
+              headerTransparent: true,
+              headerTitle: '',
+              headerLeft: () => HeaderLeftBackToPreviousScreen(navigation),
+            })}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            header: HomeHeader,
-          }}
-        />
-        <Stack.Screen
-          name="Movie"
-          component={Movie}
-          options={({navigation}) => ({
-            headerTransparent: true,
-            headerTitle: '',
-            headerLeft: () => HeaderLeftBackToPreviousScreen(navigation),
-          })}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
 };
 
-export default App;
+export default observer(App);
 
 const styles = StyleSheet.create({
   backButton: {
