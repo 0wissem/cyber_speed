@@ -51,7 +51,8 @@ export class TmbdStore {
       })
       .then(data =>
         runInAction(() => {
-          this.movies = data?.results;
+          // get the first 10 movies since per_page query is not available in the API.
+          this.movies = data?.results?.slice(0, 10);
           // can be used to handle states instead of using "movies" observable.
           // also helpfull for pagination to keep tracking the page number.
           return data;
