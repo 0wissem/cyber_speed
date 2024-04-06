@@ -28,7 +28,7 @@ export default SearchBar;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.GRAY_BACKGROUND,
-    height: 50,
+    height: 45,
     marginHorizontal: 40,
     flexDirection: 'row',
     alignItems: 'center',

@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   avatar: {
-    height: 30,
-    width: 30,
+    height: 35,
+    width: 35,
     borderRadius: 15,
   },
   texts: {
@@ -52,10 +52,12 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 17,
     fontWeight: '600',
+    textTransform: 'capitalize',
   },
   desciption: {
     color: '#FFF',
     fontSize: 13,
     fontWeight: '400',
+    textTransform: 'capitalize',
   },
 });
