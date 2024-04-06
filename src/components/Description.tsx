@@ -1,11 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import React, {useCallback, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {COLORS} from '../constants/colors';
 import {STRINGS} from './strings';
@@ -33,15 +27,17 @@ const Description: React.FC<IDescription> = ({label = ''}) => {
       <Text style={styles.label} numberOfLines={showFullDescription ? null : 4}>
         {label}
       </Text>
-      <TouchableOpacity
-        onPress={toggleDescriptionView}
-        hitSlop={{top: 40, right: 20, left: 20}}>
-        {showFullDescription ? (
-          <Text style={styles.moreOrLess}>{STRINGS.SHOW_LESS}</Text>
-        ) : (
-          <Text style={styles.moreOrLess}>{STRINGS.SHOW_MORE}</Text>
-        )}
-      </TouchableOpacity>
+      {label?.length > 250 && (
+        <TouchableOpacity
+          onPress={toggleDescriptionView}
+          hitSlop={{top: 40, right: 20, left: 20}}>
+          {showFullDescription ? (
+            <Text style={styles.moreOrLess}>{STRINGS.SHOW_LESS}</Text>
+          ) : (
+            <Text style={styles.moreOrLess}>{STRINGS.SHOW_MORE}</Text>
+          )}
+        </TouchableOpacity>
+      )}
     </LinearGradient>
   );
 };
