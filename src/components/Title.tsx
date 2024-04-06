@@ -3,12 +3,13 @@ import React from 'react';
 
 interface ITitle {
   label: string;
+  style: object; //null is an object
 }
 
-const Title: React.FC<ITitle> = ({label = 'title'}) => {
+const Title: React.FC<ITitle> = ({label = 'title', style = null}) => {
   return (
     <View>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, style]}>{label}</Text>
     </View>
   );
 };
