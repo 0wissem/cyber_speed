@@ -12,8 +12,8 @@ import {COLORS} from '../constants/colors';
 interface ICard {
   title: string;
   imagePath: string;
-  onPress: () => void;
-  id: string | number | null;
+  onPress: (id: number | null) => void;
+  id: number | null;
 }
 const Card: React.FC<ICard> = ({
   title = 'unavailable',

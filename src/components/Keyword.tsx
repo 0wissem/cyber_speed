@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     marginEnd: 14,
     padding: 8,
     borderRadius: 10,
+    marginBottom: 7,
   },
   label: {
     color: '#FFF',
