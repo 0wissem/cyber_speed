@@ -19,6 +19,7 @@ import HomeHeader from './src/components/HomeHeader';
 import {tmbdStore} from './src/stores/tmbd';
 import {ACCESS_TOKEN} from './src/constants/config';
 import {observer} from 'mobx-react-lite';
+import {ARROW_BACK} from './src/constants/icons';
 const HeaderLeftBackToPreviousScreen = navigation => {
   return (
     <TouchableOpacity
@@ -29,10 +30,7 @@ const HeaderLeftBackToPreviousScreen = navigation => {
         } catch (error) {}
       }} // Go back on press
       style={styles.backButton}>
-      <Image
-        source={require('./src/assets/icons/arrow_back.png')}
-        style={styles.icon}
-      />
+      <Image source={ARROW_BACK} style={styles.icon} />
     </TouchableOpacity>
   );
 };
@@ -66,7 +64,6 @@ const App = () => {
       </NavigationContainer>
     );
   }
-
 };
 
 export default observer(App);

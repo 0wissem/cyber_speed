@@ -1,6 +1,13 @@
-import {Image, Platform, StyleSheet, TextInput, View} from 'react-native';
-import React from 'react';
+import {
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
 import {COLORS} from '../constants/colors';
+import {LOOP, REJECTION} from '../constants/icons';
 
 interface ISearchBar {
   value: string;
@@ -8,9 +15,20 @@ interface ISearchBar {
 }
 
 const SearchBar: React.FC<ISearchBar> = ({onChangeText, value}) => {
+  const [showCancelTextButton, setShowCancelTextButton] = useState(false);
+  const onFocus = () => {
+    if (value?.length > 0) {
+      setShowCancelTextButton(true);
+    }
+    return;
+  };
+  const onCancelText = () => {
+    onChangeText('');
+    setShowCancelTextButton(false);
+  };
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/icons/loop.png')} style={styles.icon} />
+      <Image source={LOOP} style={styles.icon} />
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -18,7 +36,13 @@ const SearchBar: React.FC<ISearchBar> = ({onChangeText, value}) => {
         cursorColor={COLORS.GRAY_TEXT}
         placeholder="Search"
         placeholderTextColor={COLORS.GRAY_TEXT}
+        onFocus={onFocus}
       />
+      {showCancelTextButton && value?.length !== 0 && (
+        <TouchableOpacity onPress={onCancelText} style={styles.buttonRejection}>
+          <Image source={REJECTION} style={styles.iconRejection} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -39,6 +63,10 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
   },
+  iconRejection: {
+    height: 15,
+    width: 15,
+  },
   textInput: {
     flexGrow: 1,
     height: 30,
@@ -46,5 +74,13 @@ const styles = StyleSheet.create({
     paddingStart: 7,
     paddingVertical: 0,
     color: COLORS.GRAY_TEXT,
+  },
+  buttonRejection: {
+    backgroundColor: COLORS.GRAY_BACKGROUND,
+    borderRadius: 30,
+    height: 20,
+    width: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
