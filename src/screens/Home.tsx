@@ -1,4 +1,4 @@
-import {FlatList, Platform, StyleSheet} from 'react-native';
+import {Alert, FlatList, Platform, StyleSheet} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import SearchBar from '../components/SearchBar';
 import {COLORS} from '../constants/colors';
@@ -6,7 +6,7 @@ import Card from '../components/Card';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {tmbdStore} from '../stores/tmbd';
 import {observer} from 'mobx-react-lite';
-import {getImageFullUri} from '../utils/helpers';
+import {getImageFullUri, handleErrorMessage} from '../utils/helpers';
 import Loader from '../components/Loader';
 import {STRINGS} from '../constants/strings';
 import {useDebounce} from '../hooks/useDebounce';
@@ -36,7 +36,7 @@ const Home = ({navigation}: HomeScreenProps) => {
         await fetchRandomMovies();
         setLoading(false);
       } catch (e) {
-        console.warn(e);
+        Alert.alert('', handleErrorMessage(e));
       }
     };
     fetchMovies();

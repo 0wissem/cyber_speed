@@ -1,8 +1,15 @@
-import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react-lite';
 import {tmbdStore} from '../stores/tmbd';
-import {getImageFullUri} from '../utils/helpers';
+import {getImageFullUri, handleErrorMessage} from '../utils/helpers';
 import Poster from '../components/Poster';
 import Loader from '../components/Loader';
 import Keyword from '../components/Keyword';
@@ -20,9 +27,13 @@ const Movie = ({route}: MovieScreenProps) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchMovie = async () => {
-      setLoading(true);
-      await retreiveMovieDetails(movie_id);
-      setLoading(false);
+      try {
+        setLoading(true);
+        await retreiveMovieDetails(movie_id);
+        setLoading(false);
+      } catch (e) {
+        Alert.alert('', handleErrorMessage(e));
+      }
     };
     fetchMovie();
     // eslint-disable-next-line react-hooks/exhaustive-deps

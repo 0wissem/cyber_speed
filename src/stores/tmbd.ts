@@ -43,7 +43,7 @@ export class TmbdStore {
           }),
         );
     } catch (error) {
-      console.warn(error);
+      throw error;
     }
   };
   searchMovies = async (query: string): Promise<MovieResponse | void> => {
@@ -61,7 +61,7 @@ export class TmbdStore {
           }),
         );
     } catch (error) {
-      console.warn(error);
+      throw error;
     }
   };
   retreiveMovieDetails = async (
@@ -82,7 +82,7 @@ export class TmbdStore {
           });
         });
     } catch (error) {
-      console.warn(error);
+      throw error;
     }
   };
 }
