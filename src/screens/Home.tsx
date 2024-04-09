@@ -9,8 +9,7 @@ import {observer} from 'mobx-react-lite';
 import {getImageFullUri, handleErrorMessage} from '../utils/helpers';
 import Loader from '../components/Loader';
 import {STRINGS} from '../constants/strings';
-import Title from '../components/Title';
-import {tmbdStore} from 'tmbd_module_wk';
+import tmbdStore from 'tmbd_module_wk';
 import {useDebounce} from '../hooks/useDebounce';
 import {Movie} from '../types/types';
 import MessageComponent from '../components/ListEmptyComponent';
@@ -19,7 +18,7 @@ import {HomeScreenProps} from '../types/navigator';
 
 const ItemSeparator = () => <ItemSeparatorComponent height={20} />;
 const Home = ({navigation}: HomeScreenProps) => {
-  const {searchMovies, fetchRandomMovies, movies: _movies} = tmbdStore;
+  const {searchMovies, fetchRandomMovies, movies} = tmbdStore;
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(true);
   const listRef = useRef<FlatList<any>>(null);
@@ -70,7 +69,7 @@ const Home = ({navigation}: HomeScreenProps) => {
   const ListEmptyComponent = (
     <MessageComponent label={`${STRINGS.FILMS_NOT_FOUND} ${searchText}`} />
   );
-  const movies = _movies?.results || [];
+
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar value={searchText} onChangeText={setSearchText} />

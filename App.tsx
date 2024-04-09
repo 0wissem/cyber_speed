@@ -14,7 +14,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import Home from './src/screens/Home';
 import Movie from './src/screens/Movie';
 import HomeHeader from './src/components/HomeHeader';
-import {tmbdStore} from 'tmbd_module_wk';
+import tmbdStore from 'tmbd_module_wk';
 import {ACCESS_TOKEN} from './src/constants/config';
 import {observer} from 'mobx-react-lite';
 import HeaderLeftBackToPreviousScreen from './src/components/HeaderLeftBackToPreviousScreen';

@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react-lite';
-import {tmbdStore} from '../stores/tmbd';
 import {getImageFullUri, handleErrorMessage} from '../utils/helpers';
 import Poster from '../components/Poster';
 import Loader from '../components/Loader';
@@ -20,6 +19,7 @@ import Actor, {IActor} from '../components/Actor';
 import {MovieGenre} from '../types/types';
 import ItemSeparatorComponent from '../components/ItemSeparatorComponent';
 import {MovieScreenProps} from '../types/navigator';
+import tmbdStore from 'tmbd_module_wk';
 
 const Movie = ({route}: MovieScreenProps) => {
   const {retreiveMovieDetails, movie} = tmbdStore;

@@ -19,7 +19,8 @@
     "react-native-fast-image": "^8.6.3",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-safe-area-context": "^4.9.0",
-    "react-native-screens": "^3.18.0"
+    "react-native-screens": "^3.18.0",
+    "tmbd_module_wk": "^1.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
