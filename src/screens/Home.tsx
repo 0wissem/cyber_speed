@@ -11,7 +11,7 @@ import Loader from '../components/Loader';
 import {STRINGS} from '../constants/strings';
 import {useDebounce} from '../hooks/useDebounce';
 import {Movie} from '../types/types';
-import NoFilmsComponent from '../components/ListEmptyComponent';
+import MessageComponent from '../components/ListEmptyComponent';
 import ItemSeparatorComponent from '../components/ItemSeparatorComponent';
 import {HomeScreenProps} from '../types/navigator';
 
@@ -25,15 +25,19 @@ const Home = ({navigation}: HomeScreenProps) => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      listRef?.current?.scrollToOffset({animated: true, offset: 0});
-      setLoading(true);
-      if (searchText) {
-        await searchMovies(searchText);
+      try {
+        listRef?.current?.scrollToOffset({animated: true, offset: 0});
+        setLoading(true);
+        if (searchText) {
+          await searchMovies(searchText);
+          setLoading(false);
+          return;
+        }
+        await fetchRandomMovies();
         setLoading(false);
-        return;
+      } catch (e) {
+        console.warn(e);
       }
-      await fetchRandomMovies();
-      setLoading(false);
     };
     fetchMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,8 +48,8 @@ const Home = ({navigation}: HomeScreenProps) => {
       if (id) {
         navigation.push('Movie', {id});
       }
-    } catch (error) {
-      console.warn(error);
+    } catch (e) {
+      console.warn(e);
     }
   }, []);
 
@@ -62,7 +66,7 @@ const Home = ({navigation}: HomeScreenProps) => {
   }, []);
 
   const ListEmptyComponent = (
-    <NoFilmsComponent label={`${STRINGS.FILMS_NOT_FOUND} ${searchText}`} />
+    <MessageComponent label={`${STRINGS.FILMS_NOT_FOUND} ${searchText}`} />
   );
   const movies = _movies?.results || [];
   return (

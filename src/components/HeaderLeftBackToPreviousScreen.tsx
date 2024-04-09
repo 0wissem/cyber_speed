@@ -9,14 +9,15 @@ interface IHeaderLeftBackToPreviousScreen {
 const HeaderLeftBackToPreviousScreen: React.FC<
   IHeaderLeftBackToPreviousScreen
 > = ({navigation}) => {
+  const onGoBack = () => {
+    try {
+      return navigation?.pop?.();
+    } catch (error) {}
+  };
   return (
     <TouchableOpacity
       hitSlop={{top: 20, right: 20, left: 20, bottom: 20}}
-      onPress={() => {
-        try {
-          return navigation?.pop?.();
-        } catch (error) {}
-      }} // Go back on press
+      onPress={onGoBack}
       style={styles.backButton}>
       <Image source={ARROW_BACK} style={styles.icon} />
     </TouchableOpacity>

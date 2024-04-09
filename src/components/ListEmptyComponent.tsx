@@ -8,11 +8,11 @@ interface IListEmptyComponent {
 }
 
 const ListEmptyComponent: React.FC<IListEmptyComponent> = ({label}) => {
-  return <Title style={styles.noFilmsText} label={label} />;
+  return <Title style={styles.text} label={label} />;
 };
 
 export default ListEmptyComponent;
 
 const styles = StyleSheet.create({
-  noFilmsText: {alignSelf: 'center', marginTop: 20, color: COLORS.RED},
+  text: {alignSelf: 'center', marginTop: 20, color: COLORS.RED},
 });
