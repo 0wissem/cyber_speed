@@ -27,3 +27,7 @@
   <img src="./src/assets/images/home_inspiration.png" width="200" title="ios movie details screen">
   <img src="./src/assets/images/movie_details_inspiration.png" width="200" title="android movie details screen">
 </p>
+
+## Network business logic SDK 
+A network business logic SDK [tmbd_module_wk](https://www.npmjs.com/package/tmbd_module_wk) that encapsulates the logic for fetching movie data from the API is implemented within the project, we can simply switch the branch:[using-npm-package](https://github.com/0wissem/cyber_speed/tree/using-npm-package) to have a demonstration at home screen.
+

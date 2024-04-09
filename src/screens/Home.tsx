@@ -1,11 +1,4 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Alert, FlatList, Platform, StyleSheet} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import SearchBar from '../components/SearchBar';
 import {COLORS} from '../constants/colors';
@@ -13,60 +6,71 @@ import Card from '../components/Card';
 import {SafeAreaView} from 'react-native-safe-area-context';
 // import {tmbdStore} from '../stores/tmbd';
 import {observer} from 'mobx-react-lite';
-import {getImageFullUri} from '../utils/helpers';
+import {getImageFullUri, handleErrorMessage} from '../utils/helpers';
 import Loader from '../components/Loader';
 import {STRINGS} from '../constants/strings';
 import Title from '../components/Title';
 import {tmbdStore} from 'tmbd_module_wk';
-interface IHome {
-  navigation: any;
-}
-export const DEFAULT_MOVIE_POSTER =
-  'https://d1csarkz8obe9u.cloudfront.net/themedlandingpages/tlp_hero_movie-poster-template-bf66c91406dcc58797e8135a5d201178.jpg?ts%20=%201699441096';
-const ItemSeparatorComponent = () => <View style={{height: 20}} />;
-const Home: React.FC<IHome> = ({navigation}) => {
-  const {searchMovies, fetchRandomMovies, movies} = tmbdStore;
+import {useDebounce} from '../hooks/useDebounce';
+import {Movie} from '../types/types';
+import MessageComponent from '../components/ListEmptyComponent';
+import ItemSeparatorComponent from '../components/ItemSeparatorComponent';
+import {HomeScreenProps} from '../types/navigator';
+
+const ItemSeparator = () => <ItemSeparatorComponent height={20} />;
+const Home = ({navigation}: HomeScreenProps) => {
+  const {searchMovies, fetchRandomMovies, movies: _movies} = tmbdStore;
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(true);
   const listRef = useRef<FlatList<any>>(null);
+  const searchQuery = useDebounce(searchText, 1000);
+
   useEffect(() => {
     const fetchMovies = async () => {
-      listRef?.current?.scrollToOffset({animated: true, offset: 0});
-      setLoading(true);
-      if (searchText) {
-        await searchMovies(searchText);
+      try {
+        listRef?.current?.scrollToOffset({animated: true, offset: 0});
+        setLoading(true);
+        if (searchText) {
+          await searchMovies(searchText);
+          setLoading(false);
+          return;
+        }
+        await fetchRandomMovies();
         setLoading(false);
-        return;
+      } catch (e) {
+        Alert.alert('', handleErrorMessage(e));
       }
-      await fetchRandomMovies();
-      setLoading(false);
     };
     fetchMovies();
-  }, [searchText]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
 
   const onNavigateToMovieDetails = useCallback((id: number | null) => {
-    navigation.push('Movie', {id});
+    try {
+      if (id) {
+        navigation.push('Movie', {id});
+      }
+    } catch (e) {
+      console.warn(e);
+    }
   }, []);
 
-  const renderMovie = useCallback(({item}) => {
+  const renderMovie = useCallback(({item}: {item: Movie}) => {
     return (
       <Card
-        imagePath={getImageFullUri(item?.poster_path)}
-        title={item?.title}
+        imagePath={getImageFullUri(item.poster_path as string)}
+        title={item.title}
         onPress={onNavigateToMovieDetails}
-        id={item?.id}
+        id={item.id}
       />
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const ListEmptyComponent = () => {
-    return (
-      <Title
-        style={styles.noFilmsText}
-        label={`${STRINGS.FILMS_NOT_FOUND} ${searchText}`}
-      />
-    );
-  };
 
+  const ListEmptyComponent = (
+    <MessageComponent label={`${STRINGS.FILMS_NOT_FOUND} ${searchText}`} />
+  );
+  const movies = _movies?.results || [];
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar value={searchText} onChangeText={setSearchText} />
@@ -76,9 +80,9 @@ const Home: React.FC<IHome> = ({navigation}) => {
         data={movies}
         renderItem={renderMovie}
         style={styles.list}
-        ItemSeparatorComponent={ItemSeparatorComponent}
+        ItemSeparatorComponent={ItemSeparator}
         ListEmptyComponent={ListEmptyComponent}
-        keyExtractor={item => item?.id}
+        keyExtractor={item => `${item.id}`}
       />
     </SafeAreaView>
   );
@@ -95,5 +99,4 @@ const styles = StyleSheet.create({
   list: {
     marginTop: 32,
   },
-  noFilmsText: {alignSelf: 'center', marginTop: 20, color: COLORS.RED},
 });

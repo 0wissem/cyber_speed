@@ -24,7 +24,9 @@ const Description: React.FC<IDescription> = ({label = ''}) => {
         `${COLORS.RED}11`,
         '#00000022',
       ]}>
-      <Text style={styles.label} numberOfLines={showFullDescription ? null : 4}>
+      <Text
+        style={styles.label}
+        numberOfLines={showFullDescription ? undefined : 4}>
         {label}
       </Text>
       {label?.length > 250 && (

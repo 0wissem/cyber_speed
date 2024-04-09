@@ -4,4 +4,5 @@ export const STRINGS = {
   SHOW_LESS: 'show less..',
   SHOW_MORE: 'show more..',
   FILMS_NOT_FOUND: 'Sorry, no results were found for term',
+  UNKNOWN_ERROR: 'unknown error',
 };
