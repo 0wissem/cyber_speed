@@ -9,8 +9,11 @@ import Keyword from '../components/Keyword';
 import Title from '../components/Title';
 import {COLORS} from '../constants/colors';
 import Description from '../components/Description';
-import Actor from '../components/Actor';
-const Movie = ({navigation, route}) => {
+import Actor, {IActor} from '../components/Actor';
+import {MovieGenre} from '../types/types';
+import ItemSeparatorComponent from '../components/ItemSeparatorComponent';
+
+const Movie: React.FC = ({route}) => {
   const {retreiveMovieDetails, movie} = tmbdStore;
   const movie_id = route?.params?.id;
   const [loading, setLoading] = useState(true);
@@ -21,15 +24,16 @@ const Movie = ({navigation, route}) => {
       setLoading(false);
     };
     fetchMovie();
-  }, [movie_id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const renderActor = ({item}) => {
+  const renderActor = ({item}: {item: IActor}) => {
     return <Actor uri={item?.uri} />;
   };
   const title = `${movie?.title} (${Number(
     movie?.vote_average?.toFixed?.(1) || 0,
   )})`;
-  const ItemSeparatorComponent = () => <View style={{width: 20}} />;
+  const ItemSeparator = () => <ItemSeparatorComponent width={20} />;
   const ListEmptyComponent = <Text style={styles.text}>No Actors found</Text>;
 
   if (loading) {
@@ -42,15 +46,15 @@ const Movie = ({navigation, route}) => {
 
   return (
     <ScrollView style={styles.container} bounces={false}>
-      <Poster imagePath={getImageFullUri(movie?.poster_path)} />
+      <Poster imagePath={getImageFullUri(movie?.poster_path as string)} />
       <View style={styles.subContainer}>
         <View style={styles.keywordsContainer}>
-          {movie?.genres?.map?.((item, index) => (
-            <Keyword label={item?.name} key={item?.id} />
+          {movie?.genres?.map?.((item: MovieGenre) => (
+            <Keyword label={item.name} key={item.id} />
           ))}
         </View>
         <Title label={title} style={styles.title} />
-        <Description label={movie?.overview} />
+        <Description label={movie?.overview as string} />
         <Title label="Actors" style={[styles.title, {marginTop: 20}]} />
         <FlatList
           bounces={false}
@@ -60,7 +64,7 @@ const Movie = ({navigation, route}) => {
           // API does not return actors.
           data={[]}
           ListEmptyComponent={ListEmptyComponent}
-          ItemSeparatorComponent={ItemSeparatorComponent}
+          ItemSeparatorComponent={ItemSeparator}
           contentContainerStyle={styles.contentContainerStyle}
         />
       </View>

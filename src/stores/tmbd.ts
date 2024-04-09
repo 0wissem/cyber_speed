@@ -1,61 +1,44 @@
 import {observable, runInAction, action, makeAutoObservable} from 'mobx';
-interface IGenre {
-  id: number;
-  name: string;
-}
-interface IMovie {
-  overview: string | undefined;
-  poster_path: string | undefined;
-  genres: Array<IGenre>;
-  title: string;
-  vote_average: number;
-}
+import {MovieDetails, MovieResponse} from '../types/types';
+import {BASE_URL} from '../constants/config';
+import {getOptions} from '../utils/helpers';
+
 export class TmbdStore {
-  movies = [];
-  accessToken = '';
-  defaultPageContent = 10;
-  movie: IMovie | null = null;
+  movies: MovieResponse | null = null;
+  accessToken: string = '';
+  defaultPageContent: number = 10;
+  movie: MovieDetails | null = null;
   constructor() {
     makeAutoObservable(this, {
       movies: observable,
       setAccessToken: action,
-      reset: action,
       searchMovies: action,
       fetchRandomMovies: action,
       setDefaultPageContent: action,
     });
   }
 
-  setAccessToken = (token: string) => {
+  setAccessToken = (token: string): void => {
     runInAction(() => {
       this.accessToken = token;
     });
   };
-  setDefaultPageContent = (perPage: number) => {
+  setDefaultPageContent = (perPage: number): void => {
     this.defaultPageContent = perPage;
   };
 
-  fetchRandomMovies = async () => {
+  fetchRandomMovies = async (): Promise<MovieResponse | void> => {
     try {
-      const url = `https://api.themoviedb.org/3/trending/movie/day?per_page=${this.defaultPageContent}&language=en-US`;
-      const options = {
-        method: 'GET',
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${this.accessToken}`,
-        },
-      };
-
+      // per_page is not a valid query param, we can slice the return array to get 10 items initially
+      const url = `${BASE_URL}/trending/movie/day?per_page=${this.defaultPageContent}&language=en-US`;
+      const options = getOptions(this.accessToken, 'GET');
       fetch(url, options)
         .then(res => {
           return res.json();
         })
         .then(data =>
           runInAction(() => {
-            // get the first 10 movies since per_page query is not available in the API.
-            this.movies = data?.results?.slice(0, 10);
-            // can be used to handle states instead of using "movies" observable.
-            // also helpfull for pagination to keep tracking the page number.
+            this.movies = data;
             return data;
           }),
         );
@@ -63,26 +46,17 @@ export class TmbdStore {
       console.warn(error);
     }
   };
-  searchMovies = async (query: string | undefined) => {
+  searchMovies = async (query: string): Promise<MovieResponse | void> => {
     try {
-      const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
-      const options = {
-        method: 'GET',
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${this.accessToken}`,
-        },
-      };
-
+      const url = `${BASE_URL}/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
+      const options = getOptions(this.accessToken, 'GET');
       fetch(url, options)
         .then(res => {
           return res.json();
         })
         .then(data =>
           runInAction(() => {
-            this.movies = data?.results;
-            // can be used to handle states instead of using "movies" observable.
-            // also helpfull for pagination to keep tracking the page number.
+            this.movies = data;
             return data;
           }),
         );
@@ -90,17 +64,13 @@ export class TmbdStore {
       console.warn(error);
     }
   };
-  retreiveMovieDetails = async (movie_id: number) => {
+  retreiveMovieDetails = async (
+    movie_id: number,
+  ): Promise<MovieDetails | void> => {
     try {
       if (!movie_id) throw 'Missing ID';
-      const url = `https://api.themoviedb.org/3/movie/${movie_id}?language=en-US`;
-      const options = {
-        method: 'GET',
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${this.accessToken}`,
-        },
-      };
+      const url = `${BASE_URL}/movie/${movie_id}?language=en-US`;
+      const options = getOptions(this.accessToken, 'GET');
       fetch(url, options)
         .then(res => {
           return res.json();
@@ -108,17 +78,12 @@ export class TmbdStore {
         .then(data => {
           runInAction(() => {
             this.movie = data;
-            // can be used to handle state instead of using "movie" observable.
             return data;
           });
         });
-    } catch (error) {}
-  };
-
-  reset = () => {
-    this.movies = [];
-    this.movie = null;
-    this.accessToken = ' ';
+    } catch (error) {
+      console.warn(error);
+    }
   };
 }
 
