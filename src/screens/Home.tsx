@@ -13,12 +13,10 @@ import {useDebounce} from '../hooks/useDebounce';
 import {Movie} from '../types/types';
 import NoFilmsComponent from '../components/ListEmptyComponent';
 import ItemSeparatorComponent from '../components/ItemSeparatorComponent';
+import {HomeScreenProps} from '../types/navigator';
 
-interface IHome {
-  navigation: any;
-}
 const ItemSeparator = () => <ItemSeparatorComponent height={20} />;
-const Home: React.FC<IHome> = ({navigation}) => {
+const Home = ({navigation}: HomeScreenProps) => {
   const {searchMovies, fetchRandomMovies, movies: _movies} = tmbdStore;
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(true);

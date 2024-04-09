@@ -33,7 +33,7 @@ const App = () => {
             name="Home"
             component={Home}
             options={{
-              header: HomeHeader,
+              header: () => <HomeHeader />,
             }}
           />
           <Stack.Screen

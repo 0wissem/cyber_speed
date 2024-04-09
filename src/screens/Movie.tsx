@@ -12,8 +12,9 @@ import Description from '../components/Description';
 import Actor, {IActor} from '../components/Actor';
 import {MovieGenre} from '../types/types';
 import ItemSeparatorComponent from '../components/ItemSeparatorComponent';
+import {MovieScreenProps} from '../types/navigator';
 
-const Movie: React.FC = ({route}) => {
+const Movie = ({route}: MovieScreenProps) => {
   const {retreiveMovieDetails, movie} = tmbdStore;
   const movie_id = route?.params?.id;
   const [loading, setLoading] = useState(true);
